@@ -34,11 +34,8 @@ bool MQTTInterface::loop(){
 void MQTTInterface::MQTTcallback(char* topic, byte* message, unsigned int length){
     auto it = std::find(subscribedTopics.begin(), subscribedTopics.end(), topic);     //ищем topic среди подписок
     uint8_t index = std::distance(subscribedTopics.begin(), it); //находим индекс топика
-    
-    auto sbStart = subscribs.begin();   //получаем итератор на первый топик в двухмерно массиве
-    std::advance(sbStart, index);   //переходим на нужный топик
-    auto it_elem = sbStart->before_begin(); //получаем итератор на первого подписчика
 
+    // надо бы переделать этот говнокод.....
     uint8_t ind = 0;
     for (const auto& row : subscribs) {
         if (ind == index){
