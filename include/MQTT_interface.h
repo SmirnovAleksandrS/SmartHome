@@ -6,15 +6,13 @@
 #include <WiFi.h>
 #include <forward_list>
 
-class Sensor{
-  public:
-    //virtual void acceptChanges(const char* topic) = 0;  //topic - это топик, на который подписан датчик и в котором произошли изменения
-};
+// class Sensor{
+//   public:
+//     //virtual void acceptChanges(const char* topic) = 0;  //topic - это топик, на который подписан датчик и в котором произошли изменения
+// };
 
 class Interface{
   public:
-    // Interface(char* Name);
-    // virtual bool send(char* topic, uint16_t data) = 0;
     virtual bool send(const char* topic, const char* data) = 0;
     virtual bool subscribe(const char* topic) = 0;
     virtual bool ifChanges() = 0;
@@ -23,28 +21,27 @@ class Interface{
   protected:
     bool hasChange;
     const char* name;     //название датчика
-    
-
 };
 
 class MQTTInterface : public Interface{
   public:
     MQTTInterface(const char* Name);
+    MQTTInterface(const char* Name, bool (*func)(char* topic, byte* message, unsigned int length));
 
     bool send(const char* topic, const char* data);  //отправка сообщений
     bool subscribe(const char* topic);
     bool ifChanges();
     bool loop();
-    void setCallback(bool (*func)(const char*));
-
+    bool isConnect();
+    void setCallback(bool (*func)(char* topic, byte* message, unsigned int length));
     static void MQTTcallback(char* topic, byte* message, unsigned int length);
 
   protected:
-    bool (*callback) (const char* topic);
+    bool (*callback) (char* topic, byte* message, unsigned int length);
     static WiFiClient WFClient;
     static PubSubClient* PSClient;
     static std::forward_list<std::string> subscribedTopics; 
-    static std::forward_list<std::forward_list<bool(*)(const char*)>> subscribs;
+    static std::forward_list<std::forward_list<bool(*)(char* topic, byte* message, unsigned int length)>> subscribs;
 };
 
 #endif

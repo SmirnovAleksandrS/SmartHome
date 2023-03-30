@@ -4,6 +4,33 @@ MQTTInterface::MQTTInterface(const char* Name){
     name = Name;
 }
 
+MQTTInterface::MQTTInterface(const char* Name, bool (*func)(char* topic, byte* message, unsigned int length)){
+    name = Name;
+    this->setCallback(func);
+}
+
+void MQTTInterface::setCallback(bool (*func)(char* topic, byte* message, unsigned int length)){
+    callback = func;
+}
+
+bool MQTTInterface::ifChanges(){
+    return hasChange;
+}
+
+bool MQTTInterface::isConnect(){
+    return PSClient->connected();
+}
+
+bool MQTTInterface::loop(){
+    if (PSClient->connected()){
+        return PSClient->loop();
+    } else {
+        PSClient->connect(MQTT_clientId, MQTT_login, MQTT_passwd);
+        return PSClient->loop();
+    }
+    return false;   
+}
+
 void MQTTInterface::MQTTcallback(char* topic, byte* message, unsigned int length){
     auto it = std::find(subscribedTopics.begin(), subscribedTopics.end(), topic);     //ищем topic среди подписок
     uint8_t index = std::distance(subscribedTopics.begin(), it); //находим индекс топика
@@ -16,15 +43,11 @@ void MQTTInterface::MQTTcallback(char* topic, byte* message, unsigned int length
     for (const auto& row : subscribs) {
         if (ind == index){
             for (const auto& elem : row) {
-                elem(topic);
+                elem(topic, message, length);
             }
         }
         ind ++;
     }
-}
-
-void MQTTInterface::setCallback(bool (*func)(const char*)){
-    callback = func;
 }
 
 bool MQTTInterface::send(const char* topic, const char* data){
@@ -72,7 +95,7 @@ bool MQTTInterface::subscribe(const char* topic){
 
         }else{  //не нашел топик
             subscribedTopics.push_front(topic);
-            std::forward_list<bool(*)(const char*)> new_row = {callback};
+            std::forward_list<bool(*)(char* topic, byte* message, unsigned int length)> new_row = {callback};
             subscribs.push_front(new_row);
         }
         
@@ -90,12 +113,4 @@ bool MQTTInterface::subscribe(const char* topic){
     #endif
 
     return answer;
-}
-
-bool MQTTInterface::ifChanges(){
-    return hasChange;
-}
-
-bool MQTTInterface::loop(){
-    return PSClient->loop();
 }
