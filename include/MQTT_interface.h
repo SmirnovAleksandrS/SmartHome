@@ -25,6 +25,7 @@ class Interface{
 
 class MQTTInterface : public Interface{
   public:
+    MQTTInterface();
     MQTTInterface(const char* Name);
     MQTTInterface(const char* Name, bool (*func)(char* topic, byte* message, unsigned int length));
 
