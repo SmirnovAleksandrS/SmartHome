@@ -13,10 +13,6 @@ void MQTTInterface::setCallback(bool (*func)(char* topic, byte* message, unsigne
     callback = func;
 }
 
-bool MQTTInterface::ifChanges(){
-    return hasChange;
-}
-
 bool MQTTInterface::isConnect(){
     return PSClient->connected();
 }
@@ -39,7 +35,7 @@ void MQTTInterface::MQTTcallback(char* topic, byte* message, unsigned int length
     uint8_t ind = 0;
     for (const auto& row : subscribs) {
         if (ind == index){
-            for (const auto& elem : row) {
+            for (auto& elem : row) {
                 elem(topic, message, length);
             }
         }

@@ -1,7 +1,7 @@
 #include <Arduino.h>
-#include <MQTT_connect.h>
-#include <Sensors_interface.h>
-
+#include <MQTT_interface.h>
+#include <RF24_connect.h>
+#include <Sensor_DHT11.h>
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 WiFiClient espClient;       //класс для взаимодействия с Wi-Fi
@@ -13,7 +13,7 @@ std::forward_list<std::forward_list<bool(*)(char* topic, byte* message, unsigned
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool callback1(char* topic, byte* message, unsigned int length){
+bool DHT_callback(char* topic, byte* message, unsigned int length){
   Serial.println("Huyse rabotaet!");
   return true;
 }
@@ -25,16 +25,17 @@ bool callback2(char* topic, byte* message, unsigned int length){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-MQTTInterface interf1("TestInter", &callback1);   //создание экземпляров интерфейса
+MQTTInterface interf1("TestInter", &DHT_callback);   //создание экземпляров интерфейса
 MQTTInterface interf2("TestInter2", &callback2);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
   start(&client);
-  interf1.subscribe("esp32/output");
-  interf2.subscribe("esp32/output");
-  interf2.subscribe("esp32/input");
+  // interf1.subscribe("esp32/output");
+  // interf2.subscribe("esp32/output");
+  // interf2.subscribe("esp32/input");
+  Sensor_DHT11("Dht11", &interf1);
 }
 
 void loop() {

@@ -1,4 +1,4 @@
-#include <MQTT_connect.h>
+#include "MQTT_interface.h"
 
 bool initWiFi() {
   WiFi.mode(WIFI_STA);
