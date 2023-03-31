@@ -4,3 +4,7 @@
 Sensor_DHT11::Sensor_DHT11(const char*, Interface* interf){
 
 }
+
+bool Sensor_DHT11::iteration(){
+    return true;
+}
