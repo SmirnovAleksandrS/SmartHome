@@ -29,6 +29,6 @@ class MQTTInterface : public Interface{
 };
 
 
-bool start(PubSubClient* client);   // функция запуска всех интерфейсов, подключение к Wi-Fi и MQTT серверу
+bool startMQTT(PubSubClient* client);   // функция запуска всех интерфейсов, подключение к Wi-Fi и MQTT серверу
 
 #endif

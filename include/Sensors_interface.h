@@ -7,14 +7,12 @@
 class Sensor{
 public:
     Sensor() {};
-    // virtual bool setCallback(bool (*func) (char* topic, byte* message, unsigned int length));
-    // virtual bool initialize();
     virtual bool iteration();   //опрос датчика, функция будет крутиться в main, переодически вызываясь
     
-private:
+protected:
     // bool (*callback) (char* topic, byte* message, unsigned int length); //указатель на callback
     Interface* inte;    //указатель на интерфейс
-    const char* name;   //??название датчика
+    // const char* name;   //??название датчика
 };
 
 #endif

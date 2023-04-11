@@ -31,7 +31,7 @@ bool initWiFi() {
   return connection;
 }
 
-bool start(PubSubClient* client){ //create PubSub connect
+bool startMQTT(PubSubClient* client){ //create PubSub connect
   #ifdef WriteLog_Serial
     Serial.begin(SerialSpeed);
   #endif

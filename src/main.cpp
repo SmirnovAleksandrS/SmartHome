@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <MQTT_interface.h>
-#include <RF24_connect.h>
+#include <RF24_interface.h>
 #include <Sensor_DHT11.h>
-///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////Инициализация MQTT интерфейса///////////////////////////////////////
 
 WiFiClient espClient;       //класс для взаимодействия с Wi-Fi
 PubSubClient client(espClient); //интерфейс для MQTT
@@ -11,33 +11,39 @@ PubSubClient* MQTTInterface::PSClient = &client;  //Инициализация �
 std::forward_list<std::string> MQTTInterface::subscribedTopics;
 std::forward_list<std::forward_list<bool(*)(char* topic, byte* message, unsigned int length)>> MQTTInterface::subscribs;
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////Создание callback'оф для датчиков/////////////////////////////////////
 
 bool DHT_callback(char* topic, byte* message, unsigned int length){
   Serial.println("Huyse rabotaet!");
   return true;
 }
 
-bool callback2(char* topic, byte* message, unsigned int length){
-  Serial.println("Huyse rabotaet2!");
-  return true;
-}
+////////////////////////////////Создание самих интерфейсов для датчиков///////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+MQTTInterface interf1 = MQTTInterface("TestInter", &DHT_callback);   //создание экземпляров интерфейса
 
-MQTTInterface interf1("TestInter", &DHT_callback);   //создание экземпляров интерфейса
-MQTTInterface interf2("TestInter2", &callback2);
+////////////////////////////////Инициализация nrf24l01 как датчика///////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+RF24 radio(4, 5);
+MQTTInterface TxRxInterface = MQTTInterface("Arduino1", &RF24_callback);
+RF24Senosr rf24 (&TxRxInterface, &radio);
+
+////////////////////////////////Создание датчиков////////////////////////////////////////////////////
+
+Sensor_DHT11 dht (&interf1);
+
+///////////////////////////////Основной код////////////////////////////////////////////////////////
 
 void setup() {
-  start(&client);
+  startMQTT(&client);
+  startRf24(&radio);
   // interf1.subscribe("esp32/output");
   // interf2.subscribe("esp32/output");
   // interf2.subscribe("esp32/input");
-  Sensor_DHT11("Dht11", &interf1);
+  
 }
 
 void loop() {
-
+  rf24.iteration();
+  dht.iteration();
 }
