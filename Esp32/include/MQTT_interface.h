@@ -14,6 +14,7 @@ class MQTTInterface : public Interface{
     MQTTInterface(const char* Name, bool (*func)(char* topic, byte* message, unsigned int length));
 
     bool send(const char* topic, const char* data);   //отправка сообщений
+    // bool send(const char* topic, int32_t data); 
     bool subscribe(const char* topic);                //подписка на топик
     bool loop();
     bool isConnect();

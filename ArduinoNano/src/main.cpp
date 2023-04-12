@@ -7,7 +7,7 @@ https://habr.com/ru/post/476716/
 #include <RF24.h>
 RF24 radio(9, 10); // порты D9, D10: CSN CE
 // const uint32_t pipe = 0x7878787878; // адрес рабочей трубы;
-int iteration = 0;
+int64_t iteration = 0;
 const char str[] = "strln";
 
 void setup() {
@@ -29,14 +29,16 @@ void setup() {
 void loop() {
   byte data[32];
   memcpy(data, str, strlen(str)+1);
-  data[strlen(str)+1] = 'i';
-  memcpy(data+strlen(str)+2, &iteration, sizeof(iteration));
-
+  data[strlen(str)+1] = 's';
+  // memcpy(data+strlen(str)+2, &iteration, sizeof(iteration));
+  char my_str[] = "asdfg";
+  memcpy(data+strlen(str)+2, &my_str, strlen(my_str)+1);
   radio.write(&data, 32);
   for (int i = 0; i < 32; i ++)
     Serial.print((char)data[i]);
   Serial.println();
   iteration++;
   delay(100);
+  int64_t x = atoi(str);
   // Serial.println("data= " + String(data));
 }

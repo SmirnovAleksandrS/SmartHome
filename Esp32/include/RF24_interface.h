@@ -26,12 +26,12 @@ protected:
 
 class RF24Senosr : public Sensor{
 public:
-    RF24Senosr(Interface* inter, RF24* radio);
-
+    RF24Senosr();
+    static bool RF24_callback(char* topic, byte* message, unsigned int length);
     bool iteration();
-private:
-    Interface* Inter;
-    RF24* Radio;
+protected:
+    static Interface* Inter;
+    static RF24* Radio;
 };
 
 #endif

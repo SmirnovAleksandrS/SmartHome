@@ -25,8 +25,13 @@ MQTTInterface interf1 = MQTTInterface("TestInter", &DHT_callback);   //созд�
 ////////////////////////////////Инициализация nrf24l01 как датчика///////////////////////////////////
 
 RF24 radio(4, 5);
-MQTTInterface TxRxInterface = MQTTInterface("Arduino1", &RF24_callback);
-RF24Senosr rf24 (&TxRxInterface, &radio);
+MQTTInterface TxRxInterface = MQTTInterface("Arduino1", &RF24Senosr::RF24_callback);
+
+RF24* RF24Senosr::Radio = &radio;
+Interface* RF24Senosr::Inter = &TxRxInterface;
+
+RF24Senosr rf24 = RF24Senosr();
+
 
 ////////////////////////////////Создание датчиков////////////////////////////////////////////////////
 
