@@ -9,7 +9,6 @@
 #include "RF24_settings.h"
 
 bool startRf24(RF24* radio);
-bool RF24_callback(char* topic, byte* message, unsigned int length);
 
 class RF24Interface : public Interface{
 public:

@@ -17,6 +17,12 @@ bool startRf24(RF24* radio){
     return ans;          
 }
 
+////////////////////////////блок для RF24Interface////////////////////////////////
+
+
+
+////////////////////////////блок для RF24Sensor//////////////////////////////// 
+
 RF24Senosr::RF24Senosr(){}
 
 bool RF24Senosr::RF24_callback(char* topic, byte* message, unsigned int length){
