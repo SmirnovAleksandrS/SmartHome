@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <MQTT_interface.h>
-#include <RF24_interface.h>
+#include <RF24_sensor.h>
 #include <Sensor_DHT11.h>
 ///////////////////////////////Инициализация MQTT интерфейса///////////////////////////////////////
 

@@ -10,6 +10,8 @@ https://habr.com/ru/post/476716/
 
 RF24 radio(9, 10); // порты D9, D10: CSN CE
 RF24* RF24Interface::Radio = &radio;
+String* RF24Interface::subscribedTopics = new String [RF24_MaxCountTopics];
+TypeOfCallback RF24Interface::subscribs[RF24_MaxCountTopics][RF24_MaxCountSubscribers];
 RF24Interface inter1();
 
 // const uint32_t pipe = 0x7878787878; // адрес рабочей трубы;

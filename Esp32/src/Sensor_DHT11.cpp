@@ -5,8 +5,6 @@ Sensor_DHT11::Sensor_DHT11(Interface* interf){
     this->inte = interf;
 }
 
-
-
 bool Sensor_DHT11::iteration(){
     return true;
 }
