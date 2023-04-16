@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <MQTT_interface.h>
 #include <RF24_sensor.h>
-#include <Sensor_DHT11.h>
 ///////////////////////////////Инициализация MQTT интерфейса///////////////////////////////////////
 
 WiFiClient espClient;       //класс для взаимодействия с Wi-Fi
@@ -35,20 +34,16 @@ RF24Senosr rf24 = RF24Senosr();
 
 ////////////////////////////////Создание датчиков////////////////////////////////////////////////////
 
-Sensor_DHT11 dht (&interf1);
+
 
 ///////////////////////////////Основной код////////////////////////////////////////////////////////
 
 void setup() {
   startMQTT(&client);
-  startRf24(&radio);
-  // interf1.subscribe("esp32/output");
-  // interf2.subscribe("esp32/output");
-  // interf2.subscribe("esp32/input");
-  
+  startRf24(&radio);  
 }
 
 void loop() {
   rf24.iteration();
-  dht.iteration();
+
 }
