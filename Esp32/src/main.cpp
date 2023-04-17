@@ -37,7 +37,7 @@ MQTTInterface LED_inter = MQTTInterface("LED", &Sensor_LED::LED_Callback);   //�
 ////////////////////////////////Создание датчиков////////////////////////////////////////////////////
 
 uint8_t Sensor_LED::PIN;
-Sensor_LED LED1 = Sensor_LED(&LED_inter, 1);
+Sensor_LED LED1 = Sensor_LED(&LED_inter, 22);
 
 // uint8_t Sensor_PWM_LED::PIN;
 // Sensor_PWM_LED LED2 = Sensor_PWM_LED(&LED_inter, 1);
@@ -47,10 +47,15 @@ Sensor_LED LED1 = Sensor_LED(&LED_inter, 1);
 void setup() {
   startMQTT(&client);
   startRf24(&radio);  
+  client.subscribe("Test");
   LED_inter.subscribe("LED_Test");
+  LED_inter.subscribe("LED");
+  // TxRxInterface.subscribe("LED");
 }
 
 void loop() {
-  rf24.iteration();
+  // LED_inter.send("LED", "data");
+  // delay(1000);
+  // rf24.iteration();
   LED1.iteration();
 }

@@ -28,9 +28,13 @@ bool MQTTInterface::loop(){
 }
 
 void MQTTInterface::MQTTcallback(char* topic, byte* message, unsigned int length){
+    #ifdef WriteLog_Serial
+        Serial.print("message fom ");
+        Serial.println(topic);
+    #endif 
     auto it = std::find(subscribedTopics.begin(), subscribedTopics.end(), topic);     //ищем topic среди подписок
     uint8_t index = std::distance(subscribedTopics.begin(), it); //находим индекс топика
-
+    
     // надо бы переделать этот говнокод.....
     uint8_t ind = 0;
     for (const auto& row : subscribs) {
@@ -102,7 +106,8 @@ bool MQTTInterface::subscribe(const char* topic){
         }
         Serial.println();
     }
-    Serial.println();
+    // Serial.println();
+    Serial.println(answer);
     #endif
 
     return answer;
