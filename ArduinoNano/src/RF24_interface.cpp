@@ -57,6 +57,21 @@ bool RF24Interface::loop(){
             for(int i = topicLn + 1; i < 32; i ++){
                 values[i-topicLn - 1] = data[i];
             }
+
+            //вызов callback
+
+            for (int i = 0; i < RF24_MaxCountTopics; i ++){
+                if(subscribedTopics[i] == topicName){
+                    for (int j = 0; j < RF24_MaxCountSubscribers; j ++){
+                        if (subscribs[i][j] != nullptr){
+                            subscribs[i][j](topicName, data, 32);
+                        }else{
+                            break;
+                        }
+                    }
+                }
+            }
+            
         }
         return true;
     }
@@ -71,6 +86,7 @@ bool RF24Interface::subscribe(const char* topic){
                 if (subscribs[i][j] == nullptr){    //если есть, то добавляем нового подписчика
                     subscribs[i][j] = callback;
                     allOk = true;
+                    break;
                 }
             }
         } else if (subscribedTopics[i] == nullptr){ //если уже пошли пустые ячейки значит такая подписка первая
