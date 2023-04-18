@@ -17,6 +17,7 @@ public:
     void setInterface(Interface* interf);
 protected:
     DHT_Unified* dht;
+    uint64_t time;
 };
 
 #endif
