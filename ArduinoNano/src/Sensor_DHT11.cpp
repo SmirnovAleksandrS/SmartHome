@@ -1,5 +1,6 @@
 #include <Sensor_DHT11.h>
 
+Sensor_DHT11::Sensor_DHT11(){}
 
 Sensor_DHT11::Sensor_DHT11(Interface* interf, DHT_Unified* sens){
     this->inte = interf;
@@ -8,7 +9,6 @@ Sensor_DHT11::Sensor_DHT11(Interface* interf, DHT_Unified* sens){
     // DHT_Unified dht(DHTPIN, DHTTYPE);
     dht = sens;
     dht->begin();
-    
 }
 
 Sensor_DHT11::Sensor_DHT11(DHT_Unified* sens){

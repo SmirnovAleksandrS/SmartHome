@@ -9,14 +9,11 @@
 class Sensor_serva : public Sensor{
 public:
     Sensor_serva();
+    Sensor_serva(Servo* sens);
     Sensor_serva(Interface* interf, Servo* sens);
-    bool potentiometr_Callback (char* topic, byte* message, unsigned int length);
-    // Sensor_DHT11(Interface* interf, uint8_t port);
-
-    // void stPort(port);
-    // begin()
-
+    bool callback (char* topic, byte* message, unsigned int length);
     bool iteration();
+    void setInterface(Interface* interf);
 protected:
     Servo* serva;
     uint64_t time;

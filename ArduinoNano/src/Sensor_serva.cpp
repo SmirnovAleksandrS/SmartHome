@@ -1,5 +1,13 @@
 #include <Sensor_serva.h>
 
+Sensor_serva::Sensor_serva(){}
+
+Sensor_serva::Sensor_serva(Servo* sens){
+    serva = sens;
+    this->time = millis();
+    this->angle_position = serva->read();
+}
+
 Sensor_serva::Sensor_serva(Interface* interf, Servo* sens){
     this->inte = interf;
     // Serial.begin(9600);
@@ -10,7 +18,11 @@ Sensor_serva::Sensor_serva(Interface* interf, Servo* sens){
     this->angle_position = serva->read();
 }
 
-bool Sensor_serva::potentiometr_Callback (char* topic, byte* message, unsigned int length){
+void Sensor_serva::setInterface(Interface* interf){
+    inte = interf;
+}
+
+bool Sensor_serva::callback (char* topic, byte* message, unsigned int length){
     int64_t angle;
     memcpy(&angle, message, sizeof(int64_t));
     if (angle > 180){
