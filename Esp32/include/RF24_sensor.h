@@ -13,7 +13,7 @@ bool startRf24(RF24* radio);
 class RF24Senosr : public Sensor{
 public:
     RF24Senosr();
-    static bool RF24_callback(char* topic, byte* message, unsigned int length);
+    bool callback(char* topic, byte* message, unsigned int length);
     bool iteration();
 protected:
     static Interface* Inter;

@@ -21,7 +21,7 @@ bool startRf24(RF24* radio){
 
 RF24Senosr::RF24Senosr(){}
 
-bool RF24Senosr::RF24_callback(char* topic, byte* message, unsigned int length){
+bool RF24Senosr::callback(char* topic, byte* message, unsigned int length){
     //byte массив по-факту массив char, т.к. ничего другого запихать туда нельзя.
     //шаг первый, распарсим что это за данные, строка или число, т.к. число в строковом виде занимает больше места
     char type_message = 'i';
