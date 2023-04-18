@@ -19,6 +19,10 @@ bool startRf24(RF24* radio){
 
 ////////////////////////////блок для RF24Sensor//////////////////////////////// 
 
+void RF24Senosr::setInterface(Interface* Inter){
+    inte = Inter;
+}
+
 RF24Senosr::RF24Senosr(){}
 
 bool RF24Senosr::callback(char* topic, byte* message, unsigned int length){
@@ -117,7 +121,7 @@ bool RF24Senosr::iteration(){
             {
             case 'i':   //передали интовое число
                 memcpy(&value_int, data +topicLn + 2, sizeof(int));
-                sendRes = Inter->send(topicName, const_cast<char*>((std::to_string(value_int)).c_str()));
+                sendRes = inte->send(topicName, const_cast<char*>((std::to_string(value_int)).c_str()));
                 #ifdef WriteLog_Serial
                     Serial.print(value_int);
                     Serial.print(" Send to server: ");
@@ -126,7 +130,7 @@ bool RF24Senosr::iteration(){
                 break;
             case 's':   //передали строку
                 memcpy(value_char, data + topicLn + 2, 30 - topicLn);
-                sendRes = Inter->send(topicName, value_char);
+                sendRes = inte->send(topicName, value_char);
                 #ifdef WriteLog_Serial
                     Serial.println(value_char);
                     Serial.print(" Send to server: ");
@@ -136,7 +140,7 @@ bool RF24Senosr::iteration(){
             case 'f':   //передали float
                 
                 memcpy(&value_float, data +topicLn + 2, sizeof(value_float));
-                sendRes = Inter->send(topicName, const_cast<char*>((std::to_string(value_float)).c_str()));
+                sendRes = inte->send(topicName, const_cast<char*>((std::to_string(value_float)).c_str()));
                 #ifdef WriteLog_Serial
                     Serial.print(value_float);
                     Serial.print(" Send to server: ");
@@ -144,7 +148,7 @@ bool RF24Senosr::iteration(){
                 #endif
                 break;
             case 'b':    //передали команду подписаться на топик
-                sendRes = Inter->subscribe(topicName);
+                sendRes = inte->subscribe(topicName);
                 break;
             }
         }

@@ -15,8 +15,9 @@ public:
     RF24Senosr();
     bool callback(char* topic, byte* message, unsigned int length);
     bool iteration();
+    void setInterface(Interface* inter);
 protected:
-    static Interface* Inter;
+    // Interface* Inter;
     static RF24* Radio;
 };
 

@@ -64,7 +64,7 @@ bool RF24Interface::loop(){
                 if(subscribedTopics[i] == topicName){
                     for (int j = 0; j < RF24_MaxCountSubscribers; j ++){
                         if (subscribs[i][j] != nullptr){
-                            subscribs[i][j](topicName, data, 32);
+                            subscribs[i][j]->callback(topicName, data, 32);
                         }else{
                             break;
                         }
@@ -84,14 +84,14 @@ bool RF24Interface::subscribe(const char* topic){
         if (subscribedTopics[i] == topic){  //если уже есть кто-то подписавшийся на топик
             for (int j = 0; j < RF24_MaxCountSubscribers; j ++){    //смотрим есть ли пустое место для нового callback
                 if (subscribs[i][j] == nullptr){    //если есть, то добавляем нового подписчика
-                    subscribs[i][j] = callback;
+                    subscribs[i][j] = My_Sensor;
                     allOk = true;
                     break;
                 }
             }
         } else if (subscribedTopics[i] == nullptr){ //если уже пошли пустые ячейки значит такая подписка первая
             subscribedTopics[i] = topic;
-            subscribs[i][0] = callback;
+            subscribs[i][0] = My_Sensor;
             allOk = true;
             break;
         }

@@ -15,13 +15,12 @@ std::forward_list<std::forward_list<Sensor*>> MQTTInterface::subscribs;
 
 ////////////////////////////////Инициализация nrf24l01 как датчика///////////////////////////////////
 
-// RF24 radio(4, 5);
-// MQTTInterface TxRxInterface = MQTTInterface("Arduino1", &RF24Senosr::RF24_callback);
-
-// RF24* RF24Senosr::Radio = &radio;
+RF24 radio(4, 5);
+RF24* RF24Senosr::Radio = &radio;
 // Interface* RF24Senosr::Inter = &TxRxInterface;
+RF24Senosr rf24 = RF24Senosr();
 
-// RF24Senosr rf24 = RF24Senosr();
+MQTTInterface TxRxInterface = MQTTInterface("Arduino1", &rf24);
 
 ////////////////////////////////Создание датчиков////////////////////////////////////////////////////
 
@@ -36,6 +35,7 @@ MQTTInterface LED_inter2 = MQTTInterface("LED2", &LED2);   //создание э
 ///////////////////////////////Основной код////////////////////////////////////////////////////////
 
 void setup() {
+  rf24.setInterface(&TxRxInterface);
   LED1.setInterface(&LED_inter1);
   LED2.setInterface(&LED_inter2);
   startMQTT(&client);

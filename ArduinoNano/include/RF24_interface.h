@@ -6,8 +6,9 @@
 #include <Interface.h>
 #include "RF24_settings.h"
 #include "string.h"
+#include "Sensors_interface.h"
 
-typedef bool (*TypeOfCallback)(char*, byte*, unsigned int);
+#define typeSensor Sensor*
 
 bool startRf24(RF24* radio);
 
@@ -20,10 +21,10 @@ public:
     bool subscribe(const char* topic);
     bool loop();
 protected:
+    typeSensor My_Sensor;
     static RF24* Radio;
-    bool (*callback) (char* topic, byte* message, unsigned int length);
     static String* subscribedTopics;
-    static TypeOfCallback subscribs[RF24_MaxCountTopics][RF24_MaxCountSubscribers];
+    static typeSensor subscribs[RF24_MaxCountTopics][RF24_MaxCountSubscribers];
 };
 
 #endif

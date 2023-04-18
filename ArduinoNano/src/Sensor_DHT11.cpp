@@ -11,7 +11,16 @@ Sensor_DHT11::Sensor_DHT11(Interface* interf, DHT_Unified* sens){
     
 }
 
-bool DHT11_Callback (char* topic, byte* message, unsigned int length){return true;}
+Sensor_DHT11::Sensor_DHT11(DHT_Unified* sens){
+    dht = sens;
+    dht->begin();
+}
+
+void Sensor_DHT11::setInterface(Interface* interf){
+    inte = interf;
+}
+
+bool Sensor_DHT11::callback (char* topic, byte* message, unsigned int length){return true;}
 
 bool Sensor_DHT11::iteration(){
     if (inte->loop()){

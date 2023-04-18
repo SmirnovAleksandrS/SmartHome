@@ -10,14 +10,11 @@
 class Sensor_DHT11 : public Sensor{
 public:
     Sensor_DHT11();
+    Sensor_DHT11(DHT_Unified* sens);
     Sensor_DHT11(Interface* interf, DHT_Unified* sens);
-    bool DHT11_Callback (char* topic, byte* message, unsigned int length);
-    // Sensor_DHT11(Interface* interf, uint8_t port);
-
-    // void stPort(port);
-    // begin()
-
+    bool callback (char* topic, byte* message, unsigned int length);
     bool iteration();
+    void setInterface(Interface* interf);
 protected:
     DHT_Unified* dht;
 };
