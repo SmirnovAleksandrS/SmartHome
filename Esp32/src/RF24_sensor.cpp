@@ -6,12 +6,12 @@ bool startRf24(RF24* radio){
     ans = radio->begin();
     if(ans){
         radio->setDataRate(RF24_DataRate); // скорость обмена данными RF24_1MBPS или RF24_2MBPS
-        // radio->setCRCLength(RF24_CRC_8); // размер контрольной суммы 8 bit или 16 bit
         radio->setPALevel(RF24_PaLevel); // уровень питания усилителя RF24_PA_MIN, RF24_PA_LOW, RF24_PA_HIGH and RF24_PA_MAX
-        radio->setChannel(RF24_Channel);         // установка канала
+        radio->setPayloadSize(32);
         radio->setAutoAck(false);       // автоответ
-        radio->powerUp();    // включение или пониженное потребление powerDown - powerUp
-        radio->openReadingPipe(1, RF24_pipe);
+        uint8_t address[][6] = { "1Node", "2Node" };
+        radio->openReadingPipe(1, address[1]);
+        radio->openWritingPipe(address[0]);
         radio->startListening();
     }
     return ans;          
@@ -68,9 +68,7 @@ bool RF24Senosr::callback(char* topic, byte* message, unsigned int length){
     //шаг третий проверяем подходит ли длинна, если да то отправляем
     if (correctLen){
         Radio->stopListening();
-        Radio->openWritingPipe(RF24_pipe);
         Radio->write(&data, 32);
-        Radio->openReadingPipe(1, RF24_pipe);
         Radio->startListening();
         return true;
     }
@@ -80,12 +78,25 @@ bool RF24Senosr::callback(char* topic, byte* message, unsigned int length){
 bool RF24Senosr::iteration(){
     bool sendRes = false;
     if(Radio->isChipConnected()){
+        // Serial.println("ChipOk");
         if(Radio->available()){
             #ifdef WriteLog_Serial
-                Serial.print("Receved: ");
+                Serial.print("New data! Receved packet: ");
             #endif
+
             byte data[32];
             Radio->read(data, 32);
+
+            #ifdef WriteLog_Serial
+                for (int i = 0; i < 32; i ++){
+                    if (data[i] == '\0'){
+                        Serial.print("$");
+                    }else 
+                        Serial.print((char)data[i]);
+                }
+                Serial.println();
+            #endif
+
             int topicLn = 0;
             //отпарсиваем название топика
             for (int i = 0;i < 32; i ++){
@@ -105,12 +116,12 @@ bool RF24Senosr::iteration(){
             char type = (char)data[topicLn+1];
 
             #ifdef WriteLog_Serial
+                Serial.print("Recognuze: ln: ");
                 Serial.print(topicLn);
-                Serial.print(' ');
+                Serial.print(" Type: ");
                 Serial.print(type);
-                Serial.print(' ');
+                Serial.print(" Topic name: ");
                 Serial.print(topicName);
-                Serial.print(' ');
             #endif
             
             int64_t value_int;
@@ -121,33 +132,37 @@ bool RF24Senosr::iteration(){
             {
             case 'i':   //передали интовое число
                 memcpy(&value_int, data +topicLn + 2, sizeof(int));
-                sendRes = inte->send(topicName, const_cast<char*>((std::to_string(value_int)).c_str()));
                 #ifdef WriteLog_Serial
-                    Serial.print(value_int);
-                    Serial.print(" Send to server: ");
-                    Serial.println(sendRes);
+                    Serial.print("Data: ");
+                    Serial.print(value_float);
+                    Serial.println(" Try send to server: ");
                 #endif
+                sendRes = inte->send(topicName, const_cast<char*>((std::to_string(value_int)).c_str()));
                 break;
             case 's':   //передали строку
                 memcpy(value_char, data + topicLn + 2, 30 - topicLn);
-                sendRes = inte->send(topicName, value_char);
                 #ifdef WriteLog_Serial
-                    Serial.println(value_char);
-                    Serial.print(" Send to server: ");
-                    Serial.println(sendRes);
+                    Serial.print("Data: ");
+                    Serial.print(value_float);
+                    Serial.println(" Try send to server: ");
                 #endif
+                sendRes = inte->send(topicName, value_char);
                 break;
             case 'f':   //передали float
                 
                 memcpy(&value_float, data +topicLn + 2, sizeof(value_float));
-                sendRes = inte->send(topicName, const_cast<char*>((std::to_string(value_float)).c_str()));
                 #ifdef WriteLog_Serial
+                    Serial.print("Data: ");
                     Serial.print(value_float);
-                    Serial.print(" Send to server: ");
-                    Serial.println(sendRes);
+                    Serial.println(" Try send to server: ");
                 #endif
+                sendRes = inte->send(topicName, const_cast<char*>((std::to_string(value_float)).c_str()));
+                
                 break;
             case 'b':    //передали команду подписаться на топик
+                #ifdef WriteLog_Serial
+                    Serial.println(" Try subscribe: ");
+                #endif
                 sendRes = inte->subscribe(topicName);
                 break;
             }

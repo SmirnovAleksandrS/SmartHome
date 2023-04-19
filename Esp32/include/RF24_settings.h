@@ -9,6 +9,10 @@
 #define RF24_DataRate RF24_1MBPS    //скорость передача
 #define RF24_Channel 0x6f   //канал
 
+#define RF24_pipe_read  "Node2"
+#define RF24_pipe_write "Node1"
+
+
 #define WriteLog_Serial
 
 #endif

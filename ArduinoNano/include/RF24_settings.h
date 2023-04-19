@@ -10,6 +10,9 @@
 #define RF24_Channel 0x6f   //канал
 #define WriteLog_SerialRF24
 
+#define RF24_pipe_read  "Node1"
+#define RF24_pipe_write "Node2"
+
 #define RF24_MaxCountTopics 10
 #define RF24_MaxCountSubscribers 10
 

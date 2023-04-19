@@ -20,10 +20,11 @@ RF24Interface rf24_inter_dht11 = RF24Interface();
 ///////////////////////Основной код//////////////////////////////////////
 
 void setup() {
+  Serial.begin(9600);
   dht11.setInterface(&rf24_inter_dht11);
   startRf24(&radio);
 }
 
 void loop() {
-  dht11.iteration();
+  Serial.println(dht11.iteration());
 }

@@ -71,6 +71,8 @@ if (inte->loop()){
             }
             time = millis();
             return flag;
+        } else {
+            return 1;
         }
     }
     return false;

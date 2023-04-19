@@ -35,21 +35,22 @@ MQTTInterface LED_inter2 = MQTTInterface("LED2", &LED2);   //создание э
 ///////////////////////////////Основной код////////////////////////////////////////////////////////
 
 void setup() {
+  startMQTT(&client);
+  startRf24(&radio);  
   rf24.setInterface(&TxRxInterface);
   LED1.setInterface(&LED_inter1);
   LED2.setInterface(&LED_inter2);
-  startMQTT(&client);
-  // startRf24(&radio);  
-  client.subscribe("Test");
-  LED_inter1.subscribe("LED1");
-  LED_inter2.subscribe("LED2");
+  // client.subscribe("Test");
+  // LED_inter1.subscribe("LED1");
+  // LED_inter2.subscribe("LED2");
   // TxRxInterface.subscribe("LED");
 }
 
 void loop() {
   // LED_inter.send("LED", "data");
   // delay(1000);
-  // rf24.iteration();
-  LED1.iteration();
-  LED2.iteration();
+  // Serial.println(rf24.iteration());
+  rf24.iteration();
+  // LED1.iteration();
+  // LED2.iteration();
 }
