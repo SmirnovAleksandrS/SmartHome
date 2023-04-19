@@ -2,20 +2,28 @@
 
 Sensor_serva::Sensor_serva(){}
 
-Sensor_serva::Sensor_serva(Servo* sens){
+Sensor_serva::Sensor_serva(Servo* sens, unsigned int port, const char* top){
     serva = sens;
     this->time = millis();
     this->angle_position = serva->read();
+    serva->attach(port);
+    this->top = new char[strlen(top) + 1];
+    for (int i=0; i < strlen(top); i++){
+        this->top[i] = top[i];
+    }
 }
 
-Sensor_serva::Sensor_serva(Interface* interf, Servo* sens){
+Sensor_serva::Sensor_serva(Interface* interf, Servo* sens, unsigned int port, const char* top){
     this->inte = interf;
-    // Serial.begin(9600);
-    // инициализируем датчика
-    // DHT_Unified dht(DHTPIN, DHTTYPE);
+
     serva = sens;
     this->time = millis();
     this->angle_position = serva->read();
+    serva->attach(port);
+    this->top = new char[strlen(top) + 1];
+    for (int i=0; i < strlen(top); i++){
+        this->top[i] = top[i];
+    }
 }
 
 void Sensor_serva::setInterface(Interface* interf){
@@ -39,6 +47,7 @@ bool Sensor_serva::callback (char* topic, byte* message, unsigned int length){
 }
 
 bool Sensor_serva::iteration(){
+    bool flag = true;
     if ( inte->loop() ){
         if (millis() - time > 5){
             uint8_t angle = serva->read();
@@ -47,7 +56,8 @@ bool Sensor_serva::iteration(){
                 Serial.print(angle);
                 Serial.println("grad");
             #endif
+            flag = inte->send(top, (int64_t)angle);
         }
     }
-    return true;
+    return flag;
 }

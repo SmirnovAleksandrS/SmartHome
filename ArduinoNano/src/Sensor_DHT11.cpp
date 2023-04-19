@@ -2,18 +2,32 @@
 
 Sensor_DHT11::Sensor_DHT11(){}
 
-Sensor_DHT11::Sensor_DHT11(Interface* interf, DHT_Unified* sens){
+Sensor_DHT11::Sensor_DHT11(Interface* interf, DHT_Unified* sens, const char* temp_top, const char* humid_top){
     this->inte = interf;
-    // Serial.begin(9600);
-    // инициализируем датчика
-    // DHT_Unified dht(DHTPIN, DHTTYPE);
+
     dht = sens;
     dht->begin();
+    this->humid_top = new char[strlen(humid_top) + 1];
+    this->temp_top = new char[strlen(temp_top) + 1];
+    for (int i=0; i < strlen(temp_top); i++){
+        this->temp_top[i] = temp_top[i];
+    }
+    for (int i=0; i < strlen(humid_top); i++){
+        this->humid_top[i] = humid_top[i];
+    }
 }
 
 Sensor_DHT11::Sensor_DHT11(DHT_Unified* sens){
     dht = sens;
     dht->begin();
+    this->humid_top = new char[strlen(humid_top) + 1];
+    this->temp_top = new char[strlen(temp_top) + 1];
+    for (int i=0; i < strlen(temp_top); i++){
+        this->temp_top[i] = temp_top[i];
+    }
+    for (int i=0; i < strlen(humid_top); i++){
+        this->humid_top[i] = humid_top[i];
+    }
 }
 
 void Sensor_DHT11::setInterface(Interface* interf){
@@ -43,6 +57,9 @@ if (inte->loop()){
                     Serial.print(event.temperature);
                     Serial.println("C");
                 #endif
+                if (flag){
+                flag = inte->send(temp_top, event.temperature);
+                }
             }
             if (flag){
                 // получаем значение влажности
@@ -61,18 +78,13 @@ if (inte->loop()){
                         Serial.print(event.relative_humidity);
                         Serial.println("%");
                     #endif
-                }
-            }
-            if (flag){
-                flag = inte->send("dht11_temp", event.temperature);
-                if (flag){
-                    flag = inte->send("dht11_humid", event.relative_humidity);
+                    if (flag){
+                        flag = inte->send(humid_top, event.relative_humidity);
+                    }
                 }
             }
             time = millis();
             return flag;
-        } else {
-            return 1;
         }
     }
     return false;

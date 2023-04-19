@@ -9,18 +9,17 @@
 class Sensor_potentiometr : public Sensor{
 public:
     Sensor_potentiometr();
-    Sensor_potentiometr(Interface* interf, unsigned int port);
-    bool potentiometr_Callback (char* topic, byte* message, unsigned int length);
-    // Sensor_DHT11(Interface* interf, uint8_t port);
-
-    // void stPort(port);
-    // begin()
+    Sensor_potentiometr(unsigned int port, const char* top);
+    Sensor_potentiometr(Interface* interf, unsigned int port, const char* top);
+    bool callback (char* topic, byte* message, unsigned int length);
+    void setInterface(Interface* interf);
 
     bool iteration();
 protected:
     uint64_t time;
     int16_t voltage;
     unsigned int port;
+    char* top;
 };
 
 

@@ -11,13 +11,15 @@ class Sensor_DHT11 : public Sensor{
 public:
     Sensor_DHT11();
     Sensor_DHT11(DHT_Unified* sens);
-    Sensor_DHT11(Interface* interf, DHT_Unified* sens);
+    Sensor_DHT11(Interface* interf, DHT_Unified* sens, const char* temp_top, const char* humid_top);
     bool callback (char* topic, byte* message, unsigned int length);
     bool iteration();
     void setInterface(Interface* interf);
 protected:
     DHT_Unified* dht;
     uint64_t time;
+    char* temp_top;
+    char* humid_top;
 };
 
 #endif
