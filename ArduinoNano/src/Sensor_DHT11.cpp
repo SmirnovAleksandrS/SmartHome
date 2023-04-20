@@ -17,7 +17,7 @@ Sensor_DHT11::Sensor_DHT11(Interface* interf, DHT_Unified* sens, const char* tem
     }
 }
 
-Sensor_DHT11::Sensor_DHT11(DHT_Unified* sens){
+Sensor_DHT11::Sensor_DHT11(DHT_Unified* sens, const char* temp_top, const char* humid_top){
     dht = sens;
     dht->begin();
     this->humid_top = new char[strlen(humid_top) + 1];
