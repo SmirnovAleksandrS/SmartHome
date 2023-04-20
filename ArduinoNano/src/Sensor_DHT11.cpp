@@ -58,7 +58,7 @@ if (inte->loop()){
                     Serial.println("C");
                 #endif
                 if (flag){
-                flag = inte->send(temp_top, event.temperature);
+                flag = inte->send(temp_top, (int64_t)event.temperature);
                 }
             }
             if (flag){
@@ -79,7 +79,7 @@ if (inte->loop()){
                         Serial.println("%");
                     #endif
                     if (flag){
-                        flag = inte->send(humid_top, event.relative_humidity);
+                        flag = inte->send(humid_top, (int64_t)event.relative_humidity);
                     }
                 }
             }
