@@ -9,10 +9,10 @@ Sensor_DHT11::Sensor_DHT11(Interface* interf, DHT_Unified* sens, const char* tem
     dht->begin();
     this->humid_top = new char[strlen(humid_top) + 1];
     this->temp_top = new char[strlen(temp_top) + 1];
-    for (int i=0; i < strlen(temp_top); i++){
+    for (unsigned int i=0; i < strlen(temp_top); i++){
         this->temp_top[i] = temp_top[i];
     }
-    for (int i=0; i < strlen(humid_top); i++){
+    for (unsigned int i=0; i < strlen(humid_top); i++){
         this->humid_top[i] = humid_top[i];
     }
 }
@@ -22,10 +22,10 @@ Sensor_DHT11::Sensor_DHT11(DHT_Unified* sens, const char* temp_top, const char* 
     dht->begin();
     this->humid_top = new char[strlen(humid_top) + 1];
     this->temp_top = new char[strlen(temp_top) + 1];
-    for (int i=0; i < strlen(temp_top); i++){
+    for (unsigned int i=0; i < strlen(temp_top); i++){
         this->temp_top[i] = temp_top[i];
     }
-    for (int i=0; i < strlen(humid_top); i++){
+    for (unsigned int i=0; i < strlen(humid_top); i++){
         this->humid_top[i] = humid_top[i];
     }
 }
