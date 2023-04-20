@@ -8,9 +8,6 @@
 //     }
 //     return number;
 // }
-char* int2str(int64_t){
-    
-}
 
 bool startRf24(RF24* radio){
     bool ans = false;
