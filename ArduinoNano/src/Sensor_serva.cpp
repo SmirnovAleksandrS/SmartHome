@@ -8,7 +8,7 @@ Sensor_serva::Sensor_serva(Servo* sens, unsigned int port, const char* top){
     this->angle_position = serva->read();
     serva->attach(port);
     this->top = new char[strlen(top) + 1];
-    for (int i=0; i < strlen(top); i++){
+    for (unsigned int  i=0; i < strlen(top); i++){
         this->top[i] = top[i];
     }
 }
@@ -21,7 +21,7 @@ Sensor_serva::Sensor_serva(Interface* interf, Servo* sens, unsigned int port, co
     this->angle_position = serva->read();
     serva->attach(port);
     this->top = new char[strlen(top) + 1];
-    for (int i=0; i < strlen(top); i++){
+    for (unsigned int i=0; i < strlen(top); i++){
         this->top[i] = top[i];
     }
 }

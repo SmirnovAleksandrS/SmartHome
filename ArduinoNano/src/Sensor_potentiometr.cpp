@@ -8,7 +8,7 @@ Sensor_potentiometr::Sensor_potentiometr(unsigned int port, const char* top){
     this->port = port;
     this->voltage = 0;
     this->top = new char[strlen(top) + 1];
-    for (int i=0; i < strlen(top); i++){
+    for (unsigned int i=0; i < strlen(top); i++){
         this->top[i] = top[i];
     }
 }
@@ -20,7 +20,7 @@ Sensor_potentiometr::Sensor_potentiometr(Interface* interf, unsigned int port, c
     this->port = port;
     this->voltage = 0;
     this->top = new char[strlen(top) + 1];
-    for (int i=0; i < strlen(top); i++){
+    for (unsigned int i=0; i < strlen(top); i++){
         this->top[i] = top[i];
     }
 }
