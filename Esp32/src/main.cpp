@@ -41,7 +41,7 @@ void setup() {
   LED1.setInterface(&LED_inter1);
   LED2.setInterface(&LED_inter2);
   // client.subscribe("Test");
-  // LED_inter1.subscribe("LED1");
+  LED_inter1.subscribe("led1");
   // LED_inter2.subscribe("LED2");
   // TxRxInterface.subscribe("LED");
 }
@@ -51,6 +51,6 @@ void loop() {
   // delay(1000);
   // Serial.println(rf24.iteration());
   rf24.iteration();
-  // LED1.iteration();
+  LED1.iteration();
   // LED2.iteration();
 }

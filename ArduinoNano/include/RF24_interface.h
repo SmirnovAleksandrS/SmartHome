@@ -15,6 +15,7 @@ bool startRf24(RF24* radio);
 class RF24Interface : public Interface{
 public:
     RF24Interface();
+    RF24Interface(typeSensor Sens);
     bool send(const char* topic, const char* data);
     bool send(const char* topic, const int64_t data);
     bool send(const char* topic, const float data);

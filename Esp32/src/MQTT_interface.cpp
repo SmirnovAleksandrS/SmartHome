@@ -29,7 +29,7 @@ bool MQTTInterface::loop(){
 
 void MQTTInterface::MQTTcallback(char* topic, byte* message, unsigned int length){
     #ifdef WriteLog_Serial
-        Serial.print("message fom ");
+        Serial.print("message from topic: ");
         Serial.println(topic);
     #endif 
     auto it = std::find(subscribedTopics.begin(), subscribedTopics.end(), topic);     //ищем topic среди подписок
@@ -86,10 +86,12 @@ bool MQTTInterface::subscribe(const char* topic){
             uint8_t index = std::distance(subscribedTopics.begin(), it); //находим индекс топика
             auto sbStart = subscribs.begin();   //получаем итератор на первый топик в двухмерно массиве
             std::advance(sbStart, index);   //переходим на нужный топик
-            auto it_elem = sbStart->before_begin(); //получаем итератор на первого подписчика
-            std::advance(it_elem, std::distance(sbStart->begin(), sbStart->end())); //переходим на последнего подписчика
-            sbStart->insert_after(it_elem, My_sensor);  //добавление нового подписчика
-
+            bool hasTopic = std::find((*sbStart).begin(), (*sbStart).end(), My_sensor) != (*sbStart).end();
+            if(!hasTopic){
+                auto it_elem = sbStart->before_begin(); //получаем итератор на первого подписчика
+                std::advance(it_elem, std::distance(sbStart->begin(), sbStart->end())); //переходим на последнего подписчика
+                sbStart->insert_after(it_elem, My_sensor);  //добавление нового подписчика
+            }
         }else{  //не нашел топик
             subscribedTopics.push_front(topic);
             std::forward_list<typeSensor> new_row = {My_sensor};
@@ -106,7 +108,7 @@ bool MQTTInterface::subscribe(const char* topic){
         }
         Serial.println();
     }
-    // Serial.println();
+    Serial.print("Answer from server: ");
     Serial.println(answer);
     #endif
 
