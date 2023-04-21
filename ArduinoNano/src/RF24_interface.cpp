@@ -49,6 +49,7 @@ RF24Interface::RF24Interface(typeSensor Sens){
 
 bool RF24Interface::loop(){
     if(Radio->isChipConnected()){   //если чип жив
+        // Serial.println('I');
         if(Radio->available()){     //смотрим есть ли данные
             //проводим обработку полученных данных. Это может быть только сообщение от сервера об изменении топика
             #ifdef WriteLog_SerialRF24

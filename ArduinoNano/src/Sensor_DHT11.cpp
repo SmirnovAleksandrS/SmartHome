@@ -61,9 +61,9 @@ if (inte->loop()){
                     int peremen1 = (int)event.temperature;
                     char bufer1[32];
                     sprintf(bufer1, "%i", peremen1);
-                    Serial.print(strlen(bufer1));
-                    Serial.print(" ");
-                    Serial.print(bufer1);
+                    // Serial.print(strlen(bufer1));
+                    // Serial.print(" ");
+                    // Serial.print(bufer1);
                     flag = inte->send(temp_top, bufer1);
                 }
             }
