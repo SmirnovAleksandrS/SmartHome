@@ -9,10 +9,10 @@ Sensor_DHT11::Sensor_DHT11(Interface* interf, DHT_Unified* sens, const char* tem
     dht->begin();
     this->humid_top = new char[strlen(humid_top) + 1];
     this->temp_top = new char[strlen(temp_top) + 1];
-    for (unsigned int i=0; i < strlen(temp_top); i++){
+    for (unsigned int i=0; i <= strlen(temp_top); i++){
         this->temp_top[i] = temp_top[i];
     }
-    for (unsigned int i=0; i < strlen(humid_top); i++){
+    for (unsigned int i=0; i <= strlen(humid_top); i++){
         this->humid_top[i] = humid_top[i];
     }
 }
@@ -22,10 +22,10 @@ Sensor_DHT11::Sensor_DHT11(DHT_Unified* sens, const char* temp_top, const char* 
     dht->begin();
     this->humid_top = new char[strlen(humid_top) + 1];
     this->temp_top = new char[strlen(temp_top) + 1];
-    for (unsigned int i=0; i < strlen(temp_top); i++){
+    for (unsigned int i=0; i <= strlen(temp_top); i++){
         this->temp_top[i] = temp_top[i];
     }
-    for (unsigned int i=0; i < strlen(humid_top); i++){
+    for (unsigned int i=0; i <= strlen(humid_top); i++){
         this->humid_top[i] = humid_top[i];
     }
 }
@@ -58,7 +58,13 @@ if (inte->loop()){
                     Serial.println("C");
                 #endif
                 if (flag){
-                flag = inte->send(temp_top, (int64_t)event.temperature);
+                    int peremen1 = (int)event.temperature;
+                    char bufer1[32];
+                    sprintf(bufer1, "%i", peremen1);
+                    Serial.print(strlen(bufer1));
+                    Serial.print(" ");
+                    Serial.print(bufer1);
+                    flag = inte->send(temp_top, bufer1);
                 }
             }
             if (flag){
@@ -79,7 +85,13 @@ if (inte->loop()){
                         Serial.println("%");
                     #endif
                     if (flag){
-                        flag = inte->send(humid_top, (int64_t)event.relative_humidity);
+                        int peremen2 = (int)event.relative_humidity;
+                        char bufer2[32];
+                        sprintf(bufer2, "%i", peremen2);
+                        Serial.print(strlen(bufer2));
+                        Serial.print(" ");
+                        Serial.print(bufer2);
+                        flag = inte->send(humid_top, bufer2);
                     }
                 }
             }

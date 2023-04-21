@@ -175,7 +175,7 @@ bool RF24Interface::subscribe(const char* topic){
             break;
     }
     if (allOk && !hasSub){
-        Serial.println("Try send");
+        Serial.println("Try send sub");
         byte packet[32];
         memcpy(packet, topic, strlen(topic) + 1);
         packet[strlen(topic) + 1] = 'b';
@@ -194,6 +194,8 @@ bool RF24Interface::send(const char* topic, const char* data){
     if (strlen(topic) + strlen(data) < 30){
         byte packet[32];
         memcpy(packet, topic, strlen(topic) + 1);
+        // Serial.print(strlen(topic));
+        packet[strlen(topic)] = '\0';
         packet[strlen(topic) + 1] = 's';
         memcpy(packet+strlen(topic)+2, data, strlen(data)+1);
 
