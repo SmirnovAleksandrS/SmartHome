@@ -82,6 +82,14 @@ Sensor_oled::Sensor_oled(GyverOLED<SSD1306_128x64, OLED_NO_BUFFER>* oled, Interf
     oled->print(pi);
     delay(1000);
     oled->clear();
+    oled->setScale(1);
+    oled->setCursorXY(0, 5);
+    oled->print("Humudity: ");
+    oled->setCursorXY(0, 26);
+    oled->print("Tempature: ");
+    oled->setCursorXY(0, 47);
+    oled->print("Voltage: ");
+    oled->update();
 }
 
 void Sensor_oled::setInterface(Interface* interf){
@@ -92,7 +100,22 @@ bool Sensor_oled::callback (char* topic, byte* message, unsigned int length){
     int64_t temp;
     memcpy(&temp, message, sizeof(int64_t));
     if (topic[0] == 'h'){
-
+        oled->setScale(2);
+        oled->setCursorXY(70, 5);
+        oled->println(temp);
+        oled->update();
+    }
+    if (topic[0] == 't'){
+        oled->setScale(2);
+        oled->setCursorXY(95, 26);
+        oled->println(temp);
+        oled->update();
+    }
+    if (topic[0] == 'h'){
+        oled->setScale(2);
+        oled->setCursorXY(70, 47);
+        oled->println(temp);
+        oled->update();
     }
 
     return true;
