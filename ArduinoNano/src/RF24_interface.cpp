@@ -208,13 +208,19 @@ bool RF24Interface::send(const char* topic, const char* data){
                 }else 
                     Serial.print((char)packet[i]);
             }
-            Serial.println();
+            // Serial.println();
         #endif
 
         bool ans = false;
         Radio->stopListening();
         ans = Radio->write(&packet, 32);
         Radio->startListening();
+
+        #ifdef WriteLog_SerialRF24
+            Serial.print(" Result: ");
+            Serial.println(ans);
+        #endif
+
         return ans;
     }
     return false;
