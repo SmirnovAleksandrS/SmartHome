@@ -4,8 +4,10 @@
 #include "RF24_sensor.h"
 
 #include "Sensor_LED.h"
-// #include "Sensor_led_pwm.h"
-// #include "Sensor_potentiometr.h"
+#include "Sensor_led_pwm.h"
+#include "Sensor_potentiometr.h"
+
+#include "esp32-hal-ledc.h"
 
 ///////////////////////////////Инициализация MQTT интерфейса///////////////////////////////////////
 
@@ -26,29 +28,39 @@ MQTTInterface TxRxInterface = MQTTInterface("Nano", &rf24);
 
 ////////////////////////////////Создание датчиков////////////////////////////////////////////////////
 
-// Sensor_led_pwm Led_pwm = Sensor_led_pwm(2);
-// Sensor_potentiometr potent(36, "Potentiometr");
+Sensor_led_pwm Led_pwm = Sensor_led_pwm(16);
+Sensor_potentiometr potent(32, "Resistance");
 
 ////////////////////////////////Создание интерфейсов для датчиков///////////////////////////////
 
-// MQTTInterface Led_pwm_inter = MQTTInterface("LED1", &Led_pwm);   //создание экземпляров интерфейса
-// MQTTInterface Potent_inter = MQTTInterface("Pot", &potent);
+MQTTInterface Led_pwm_inter = MQTTInterface("LED1", &Led_pwm);   //создание экземпляров интерфейса
+MQTTInterface Potent_inter = MQTTInterface("Pot", &potent);
 
 ///////////////////////////////Основной код////////////////////////////////////////////////////////
 
 void setup() {
+  Serial.begin(115200);
+
+  // pinMode(16, OUTPUT);
+  // ledcSetup(LedChannel, Frequency, Resolution);                                    
+  // ledcAttachPin(16, LedChannel);
+  // ledcWrite(LedChannel, 253);
+  // delay(100);
+  // ledcWrite(LedChannel, 0);
+
   //инициализируем интерфейсы связи
   startMQTT(&client);
   startRf24(&radio);  
   rf24.setInterface(&TxRxInterface);
 
-  // Led_pwm.setInterface(&Led_pwm_inter);
-  // Led_pwm_inter.subscribe("led1");
+  Led_pwm.setInterface(&Led_pwm_inter);
+  Led_pwm_inter.subscribe("room1/Pot/Resistance");
 
-  // potent.setInterface(&Potent_inter);
+  potent.setInterface(&Potent_inter);
 }
 
 void loop() {
   rf24.iteration();
-  // Led_pwm.iteration();int64_t
+  potent.iteration();
+  Led_pwm.iteration();
 }

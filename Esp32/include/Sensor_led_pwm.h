@@ -1,8 +1,13 @@
 #ifndef _SENSOR_LED_PWM_
 #define _SENSOR_LED_PWM_
 
+#include "esp32-hal-ledc.h"
 #include <Sensors_interface.h>
 #include <RF24_settings.h>
+
+#define Frequency 5000                                       
+#define LedChannel 0
+#define Resolution 8
 
 class Sensor_led_pwm : public Sensor{
 public:
@@ -14,7 +19,6 @@ public:
 
     bool iteration();
 protected:
-    uint64_t time;
     int16_t pwm;
     uint8_t port;
 };
