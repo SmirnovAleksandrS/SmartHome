@@ -1,5 +1,6 @@
 #include <Sensor_oled.h>
 
+
 Sensor_oled::Sensor_oled(){}
 
 Sensor_oled::Sensor_oled(GyverOLED<SSD1306_128x64, OLED_NO_BUFFER>* oled, const char* humid_top, const char* temp_top, const char* poten_top){
@@ -99,19 +100,19 @@ void Sensor_oled::setInterface(Interface* interf){
 bool Sensor_oled::callback (char* topic, byte* message, unsigned int length){
     int64_t temp;
     memcpy(&temp, message, sizeof(int64_t));
-    if (topic[0] == 'h'){
+    if (strcmp(topic, humid_top) == 0){
         oled->setScale(2);
         oled->setCursorXY(70, 5);
         oled->println(temp);
         oled->update();
     }
-    if (topic[0] == 't'){
+    if (strcmp(topic, temp_top) == 0){
         oled->setScale(2);
         oled->setCursorXY(95, 26);
         oled->println(temp);
         oled->update();
     }
-    if (topic[0] == 'h'){
+    if (strcmp(topic, poten_top) == 0){
         oled->setScale(2);
         oled->setCursorXY(70, 47);
         oled->println(temp);
