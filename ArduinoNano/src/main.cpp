@@ -3,6 +3,7 @@
 #include "Sensor_DHT11.h"
 #include "RF24_interface.h"
 #include "Sensor_LED.h"
+#include "Sensor_oled.h"
 //////////////////////////Создаем интерфейс RF24//////////////////////////////
 
 RF24 radio(9, 10); // порты D9, D10: CSN CE
@@ -14,12 +15,12 @@ typeSensor RF24Interface::subscribs[RF24_MaxCountTopics][RF24_MaxCountSubscriber
 ////////////////////////Создаем сенсоры//////////////////////////////////
 
 //Создаем DHT
-DHT_Unified dht_unif = DHT_Unified(5, DHT11);
+DHT_Unified dht_unif = DHT_Unified(8, DHT11);
 Sensor_DHT11 dht11(&dht_unif, "Temp", "Humb");
 RF24Interface rf24_inter_dht11 = RF24Interface();
 
 //создаем LED
-Sensor_LED LED = Sensor_LED(5);
+Sensor_LED LED = Sensor_LED(7);
 RF24Interface LED_inter = RF24Interface(&LED);
 
 ///////////////////////Основной код//////////////////////////////////////
@@ -29,7 +30,7 @@ void setup() {
   startRf24(&radio);
 
   LED.setInterface(&LED_inter);
-  LED_inter.subscribe("LED");
+  LED_inter.subscribe("LED_nano");
 
   dht11.setInterface(&rf24_inter_dht11);
 }
