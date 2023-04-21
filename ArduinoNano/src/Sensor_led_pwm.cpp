@@ -36,7 +36,7 @@ bool Sensor_led_pwm::callback (char* topic, byte* message, unsigned int length){
     }
     int pwm_send = map(pwm, 0, 100, 0, 255);
     analogWrite(port, pwm_send);
-    
+    return true;
 }
 
 void Sensor_led_pwm::setInterface(Interface* interf){
