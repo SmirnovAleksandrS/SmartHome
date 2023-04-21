@@ -15,6 +15,8 @@ public:
     bool callback (char* topic, byte* message, unsigned int length);
     bool iteration();
     void setInterface(Interface* interf);
+    // int Order(int num);
+    // bool ItoA(int num, char* buffer, size_t buffer_size);
 protected:
     GyverOLED<SSD1306_128x64, OLED_NO_BUFFER>* oled; 
     char* humid_top;

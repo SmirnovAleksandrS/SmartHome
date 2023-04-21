@@ -34,6 +34,16 @@ Sensor_oled::Sensor_oled(GyverOLED<SSD1306_128x64, OLED_NO_BUFFER>* oled, const 
     float pi = 3.14;
     oled->print("PI = ");
     oled->print(pi);
+    delay(1000);
+    oled->clear();
+    oled->setScale(1);
+    oled->setCursorXY(0, 5);
+    oled->print("Humudity: ");
+    oled->setCursorXY(0, 26);
+    oled->print("Tempature: ");
+    oled->setCursorXY(0, 47);
+    oled->print("Voltage: ");
+    oled->update();
 }
 
 Sensor_oled::Sensor_oled(GyverOLED<SSD1306_128x64, OLED_NO_BUFFER>* oled, Interface* interf, const char* humid_top, const char* temp_top, const char* poten_top){
@@ -70,6 +80,8 @@ Sensor_oled::Sensor_oled(GyverOLED<SSD1306_128x64, OLED_NO_BUFFER>* oled, Interf
     float pi = 3.14;
     oled->print("PI = ");
     oled->print(pi);
+    delay(1000);
+    oled->clear();
 }
 
 void Sensor_oled::setInterface(Interface* interf){
@@ -77,8 +89,12 @@ void Sensor_oled::setInterface(Interface* interf){
 }
 
 bool Sensor_oled::callback (char* topic, byte* message, unsigned int length){
-    int64_t angle;
-    memcpy(&angle, message, sizeof(int64_t));
+    int64_t temp;
+    memcpy(&temp, message, sizeof(int64_t));
+    if (topic[0] == 'h'){
+
+    }
+
     return true;
 }
 
