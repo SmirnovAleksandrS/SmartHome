@@ -58,8 +58,9 @@ void setup() {
 
 void loop() {
   // Serial.println(dht11.iteration());
-  // 
-  LED.iteration();
-
   dht11.iteration();
+  // 
+  // LED.iteration();
+  led_pwm.iteration();
+  oled.iteration();
 }
