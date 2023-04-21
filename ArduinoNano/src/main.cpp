@@ -2,10 +2,10 @@
 // #include <RF24.h>
 #include "Sensor_DHT11.h"
 #include "RF24_interface.h"
-// #include "Sensor_LED.h"
+#include "Sensor_LED.h"
 // #include "Sensor_oled.h"
 // #include "Sensor_oled_two.h"
-#include "Sensor_led_pwm.h"
+// #include "Sensor_led_pwm.h"
 #include "Sensor_potentiometr.h"
 #include "OLED_I2C.h"
 // #include "Sensor_serva.h"
@@ -26,12 +26,12 @@ typeSensor RF24Interface::subscribs[RF24_MaxCountTopics][RF24_MaxCountSubscriber
 // RF24Interface rf24_inter_dht11 = RF24Interface(&dht11);
 
 // //создаем LED
-// // Sensor_LED LED = Sensor_LED(7);
-// // RF24Interface LED_inter = RF24Interface(&LED);
+Sensor_LED LED = Sensor_LED(7);
+RF24Interface LED_inter = RF24Interface(&LED);
 
 // создаем led pwm
-Sensor_led_pwm led_pwm = Sensor_led_pwm(5);
-RF24Interface led_pwm_inter = RF24Interface(&led_pwm);
+// Sensor_led_pwm led_pwm = Sensor_led_pwm(5);
+// RF24Interface led_pwm_inter = RF24Interface(&led_pwm);
 
 // // создаем oled
 // // GyverOLED<SSD1306_128x64, OLED_NO_BUFFER> oleddd;
@@ -82,14 +82,14 @@ void setup(){
   Serial.print(startRf24(&radio));
   myOLED.begin();  // инициализируем экран
 
-  // LED.setInterface(&LED_inter);
-  // LED_inter.subscribe("LED_nano");
+  LED.setInterface(&LED_inter);
+  LED_inter.subscribe("LED_nano");
 
   // dht11.setInterface(&rf24_inter_dht11);
   timer1 = millis();
   
 
-  led_pwm.setInterface(&led_pwm_inter);
+  // led_pwm.setInterface(&led_pwm_inter);
 
   // oled_two.setInterface(&oled_inter_two);
   // oled_inter_two.subscribe("hump");
@@ -111,8 +111,8 @@ void loop(){
   // Serial.println(dht11.iteration());
   // dht11.iteration();
   // 
-  // LED.iteration();
-  led_pwm.iteration();
+  LED.iteration();
+  // led_pwm.iteration();
   // oled.iteration();
   // oled_two.iteration();   
 
@@ -141,9 +141,9 @@ void loop(){
   myOLED.update();
 
   // выводим цифры, начиная с 5 пикселя строки
-  myOLED.setFont(BigNumbers);
-  myOLED.print("123456789", 5, 30);
-  myOLED.update();
+  // myOLED.setFont(BigNumbers);
+  // myOLED.print("123456789", 5, 30);
+  // myOLED.update();
 
   // myOLED.clrScr(); // очищаем экран от надписей
   // myOLED.update();
