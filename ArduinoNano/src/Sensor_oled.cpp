@@ -4,16 +4,15 @@
 Sensor_oled::Sensor_oled(){}
 
 Sensor_oled::Sensor_oled(GyverOLED<SSD1306_128x64, OLED_NO_BUFFER>* oledd, const char* humid_topic, const char* temp_topic, const char* poten_topic){
-    // Serial.begin(9600);
-    this->oled = oledd;
-    this->temp = 0;
-    this->humid = 0;
-    this->poten = 0;
-    this->humid_top = new char[strlen(humid_top) + 1];
+    oled = oledd;
+    temp = 0;
+    humid = 0;
+    poten = 0;
+    humid_top = new char[strlen(humid_topic) + 1];
     memcpy(humid_top, humid_topic, strlen(humid_topic) + 1);
-    this->temp_top = new char[strlen(temp_top) + 1];
+    temp_top = new char[strlen(temp_topic) + 1];
     memcpy(temp_top, temp_topic, strlen(temp_topic) + 1);
-    this->poten_top = new char[strlen(poten_top) + 1];
+    poten_top = new char[strlen(poten_topic) + 1];
     memcpy(poten_top, poten_topic, strlen(poten_topic) + 1);
 }
 
