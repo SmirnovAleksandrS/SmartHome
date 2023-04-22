@@ -34,6 +34,8 @@ bool Sensor_oled::init(){
     oled->setCursorXY(0, 47);
     oled->print("Voltage: ");
     oled->update();
+    oled->setCursorXY(70, 47);
+    oled->print("1453");
 }
 
 
