@@ -5,8 +5,8 @@
 
 #define RoomName "room1"
 
-#define WIFI_ssid "KtoProchitalTotSdohnet"
-#define WIFI_passwd "For*&The_KingOf!TheDEAD!"
+#define WIFI_ssid "*************"
+#define WIFI_passwd "***********"
 #define WIFI_tryConnect 10
 #define WIFI_delayBetwenConect 100
 
