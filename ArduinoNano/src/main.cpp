@@ -27,6 +27,7 @@ GyverOLED<SSD1306_128x64, OLED_NO_BUFFER> oled_lib;
 Sensor_oled oled_class = Sensor_oled(&oled_lib, "room1/Nano/humb", "room1/Nano/temp", "room1/Pot/Resistance");
 RF24Interface oled_inter = RF24Interface(&oled_class);
 
+
 // ///////////////////////Основной код//////////////////////////////////////
 
 void setup(){
@@ -34,11 +35,10 @@ void setup(){
   Serial.print(startRf24(&radio));
 
   oled_class.setInterface(&oled_inter);
-  oled_inter.subscribe("room1/Nano/humb");
-  oled_inter.subscribe("room1/Nano/temp");
-  oled_inter.subscribe("room1/Pot/Resistance");
   oled_class.init();
-
+  oled_inter.subscribe("room1/Pot/Resistance");
+  oled_inter.subscribe("room1/Nano/temp");
+  oled_inter.subscribe("room1/Nano/humb");
   LED.setInterface(&LED_inter);
   LED_inter.subscribe("LED_nano");
 
