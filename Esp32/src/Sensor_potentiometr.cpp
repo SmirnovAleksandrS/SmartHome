@@ -7,15 +7,9 @@ Sensor_potentiometr::Sensor_potentiometr(unsigned int PIN, const char* topic){
     voltage = 0;
     top = new char[strlen(topic) + 1];
     memcpy(top, topic, strlen(topic)+1);
+    time = millis();
 }
 
-Sensor_potentiometr::Sensor_potentiometr(Interface* interf, unsigned int PIN, const char* topic){
-    inte = interf;
-    port = PIN;
-    voltage = 0;
-    top = new char[strlen(top) + 1];
-    memcpy(top, topic, strlen(topic)+1);
-}
 
 Sensor_potentiometr::~Sensor_potentiometr(){
     delete[] top;
@@ -39,13 +33,15 @@ bool Sensor_potentiometr::iteration(){
             // Serial.print(volt);
             // Serial.println(" parrots");
         #endif
-
-        if ( abs(voltage - volt) >= 100 ){
-            char bufer[6];  //т.к максимум 4096
-            sprintf(bufer, "%i", volt);
-            flag = inte->send(top, bufer);
-            voltage = volt;
-        }
+        // if (millis() - time > 100){
+        //     if ( abs(voltage - volt) >= 100 ){
+        //         char bufer[6];  //т.к максимум 4096
+        //         sprintf(bufer, "%i", volt);
+        //         flag = inte->send(top, bufer);
+        //         voltage = volt;
+        //         time = millis();
+        //     }
+        // }
         return flag;
     }
     return false;

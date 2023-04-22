@@ -8,7 +8,6 @@ class Sensor_potentiometr : public Sensor{
 public:
     Sensor_potentiometr();
     Sensor_potentiometr(unsigned int PIN, const char* topic);
-    Sensor_potentiometr(Interface* interf, unsigned int PIN, const char* topic);
     ~Sensor_potentiometr();
     bool callback (char* topic, byte* message, unsigned int length);
     void setInterface(Interface* interf);
