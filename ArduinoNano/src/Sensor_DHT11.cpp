@@ -4,19 +4,11 @@ Sensor_DHT11::Sensor_DHT11(){
 
 }
 
-Sensor_DHT11::Sensor_DHT11(Interface* interf, DHT_Unified* sens, const char* temp_topic, const char* humid_topic){
-    inte = interf;
-    dht = sens;
-    dht->begin();
-    humid_top = new char[strlen(humid_topic) + 1];
-    memcpy(humid_top, humid_topic, strlen(humid_topic) + 1);
-    temp_top = new char[strlen(temp_topic) + 1];
-    memcpy(temp_top, temp_topic, strlen(temp_topic) + 1);
-}
 
 Sensor_DHT11::Sensor_DHT11(DHT_Unified* sens, const char* temp_topic, const char* humid_topic){
     dht = sens;
     dht->begin();
+    // запись переданных названий топиков в класс
     humid_top = new char[strlen(humid_topic) + 1];
     memcpy(humid_top, humid_topic, strlen(humid_topic) + 1);
     temp_top = new char[strlen(temp_topic) + 1];
@@ -32,6 +24,7 @@ bool Sensor_DHT11::callback (char* topic, byte* message, unsigned int length){
 }
 
 bool Sensor_DHT11::iteration(){
+    // условие на время (датчик нельзя опрашивать чаще 5 секунд)
     if (inte->loop() && (millis() - time > 5000)){
         bool flag_t = true, flag_h = true;
         sensors_event_t event;
@@ -51,7 +44,7 @@ bool Sensor_DHT11::iteration(){
                 Serial.print(event.temperature);
                 Serial.println("C");
             #endif
-
+            // отправка температуры
             bufer_i = (int)event.temperature;
             sprintf(bufer_s, "%i", bufer_i);
             flag_t = inte->send(temp_top, bufer_s);
@@ -65,6 +58,7 @@ bool Sensor_DHT11::iteration(){
             #endif 
             flag_h = false;       
         } else {
+            // отправка влажности
             #ifdef WriteLog_SerialRF24
                 Serial.print("Humidity: ");
                 Serial.print(event.relative_humidity);

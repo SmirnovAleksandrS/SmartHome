@@ -34,11 +34,13 @@ void setup(){
   Serial.begin(9600);
   Serial.print(startRf24(&radio));
 
+  // создание подписок на топики с температурой, вложностью и потенциометром
   oled_class.setInterface(&oled_inter);
-  oled_class.init();
   oled_inter.subscribe("room1/Pot/Resistance");
   oled_inter.subscribe("room1/Nano/temp");
   oled_inter.subscribe("room1/Nano/humb");
+
+  // создание подписки на светодиод (+ передача указателя на интерфейсы)
   LED.setInterface(&LED_inter);
   LED_inter.subscribe("LED_nano");
 

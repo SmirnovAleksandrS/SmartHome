@@ -1,5 +1,5 @@
 #include <Sensor_7disp.h>
-
+// не заработалб сгорел видимо
 Sensor_7disp::Sensor_7disp(){}
 
 Sensor_7disp::Sensor_7disp(TM1637* disp, unsigned int port, uint8_t clk, uint8_t dio, uint8_t bright){

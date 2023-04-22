@@ -1,5 +1,5 @@
 #include <Sensor_serva.h>
-
+// сгорела, зараза...
 Sensor_serva::Sensor_serva(){}
 
 Sensor_serva::Sensor_serva(Servo* sens, unsigned int port, const char* top){
@@ -33,6 +33,7 @@ void Sensor_serva::setInterface(Interface* interf){
 bool Sensor_serva::callback (char* topic, byte* message, unsigned int length){
     int64_t angle;
     memcpy(&angle, message, sizeof(int64_t));
+    // проверка на тупого юзера
     if (angle > 180){
         angle = 180;
     }

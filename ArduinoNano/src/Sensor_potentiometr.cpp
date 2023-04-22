@@ -41,6 +41,7 @@ bool Sensor_potentiometr::iteration(){
                 Serial.print(volt);
                 Serial.println("parrot");
             #endif
+            // отправка
             if ( abs(voltage - volt) >= 5 ){
                 flag = inte->send(top, (int64_t)volt);
             }

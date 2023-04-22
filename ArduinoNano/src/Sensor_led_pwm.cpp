@@ -1,5 +1,6 @@
 #include <Sensor_led_pwm.h>
 
+// работает, не использовался на демонстрации
 Sensor_led_pwm::Sensor_led_pwm(){}
 
 Sensor_led_pwm::Sensor_led_pwm(uint8_t port){

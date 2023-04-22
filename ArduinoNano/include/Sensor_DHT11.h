@@ -11,7 +11,6 @@ class Sensor_DHT11 : public Sensor{
 public:
     Sensor_DHT11();
     Sensor_DHT11(DHT_Unified* sens, const char* temp_topic, const char* humid_topic);
-    Sensor_DHT11(Interface* interf, DHT_Unified* sens, const char* temp_topic, const char* humid_topic);
     bool callback (char* topic, byte* message, unsigned int length);
     bool iteration();
     void setInterface(Interface* interf);

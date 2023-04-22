@@ -1,5 +1,5 @@
 #include <Sensor_oled_two.h>
-
+// класс, написанный н аэтой библиотеке не заработал
 extern uint8_t TinyFont[];
 extern uint8_t SmallFont[];
 extern uint8_t MediumNumbers[];
