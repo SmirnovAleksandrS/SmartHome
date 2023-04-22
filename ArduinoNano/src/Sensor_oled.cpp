@@ -3,24 +3,18 @@
 
 Sensor_oled::Sensor_oled(){}
 
-Sensor_oled::Sensor_oled(GyverOLED<SSD1306_128x64, OLED_NO_BUFFER>* oledd, const char* humid_top, const char* temp_top, const char* poten_top){
+Sensor_oled::Sensor_oled(GyverOLED<SSD1306_128x64, OLED_NO_BUFFER>* oledd, const char* humid_topic, const char* temp_topic, const char* poten_topic){
     // Serial.begin(9600);
     this->oled = oledd;
     this->temp = 0;
     this->humid = 0;
     this->poten = 0;
     this->humid_top = new char[strlen(humid_top) + 1];
-    for (unsigned int  i=0; i <= strlen(humid_top); i++){
-        this->humid_top[i] = humid_top[i];
-    }
+    memcpy(humid_top, humid_topic, strlen(humid_topic) + 1);
     this->temp_top = new char[strlen(temp_top) + 1];
-    for (unsigned int  i=0; i <= strlen(temp_top); i++){
-        this->temp_top[i] = temp_top[i];
-    }
+    memcpy(temp_top, temp_topic, strlen(temp_topic) + 1);
     this->poten_top = new char[strlen(poten_top) + 1];
-    for (unsigned int  i=0; i <= strlen(poten_top); i++){
-        this->poten_top[i] = poten_top[i];
-    }
+    memcpy(poten_top, poten_topic, strlen(poten_topic) + 1);
 }
 
 bool Sensor_oled::init(){
@@ -34,8 +28,6 @@ bool Sensor_oled::init(){
     oled->setCursorXY(0, 47);
     oled->print("Voltage: ");
     oled->update();
-    oled->setCursorXY(70, 47);
-    oled->print("1453");
 }
 
 

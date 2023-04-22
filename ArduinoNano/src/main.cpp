@@ -23,9 +23,9 @@ Sensor_LED LED = Sensor_LED(5);
 RF24Interface LED_inter = RF24Interface(&LED);
 
 // создаем oled
-GyverOLED<SSD1306_128x64, OLED_NO_BUFFER> oled;
-Sensor_oled oleddd = Sensor_oled(&oled, "room1/Nano/humb", "room1/Nano/temp", "room1/Pot/Resistance");
-RF24Interface oled_inter = RF24Interface(&oleddd);
+GyverOLED<SSD1306_128x64, OLED_NO_BUFFER> oled_lib;
+Sensor_oled oled_class = Sensor_oled(&oled_lib, "room1/Nano/humb", "room1/Nano/temp", "room1/Pot/Resistance");
+RF24Interface oled_inter = RF24Interface(&oled_class);
 
 // ///////////////////////Основной код//////////////////////////////////////
 
@@ -33,11 +33,11 @@ void setup(){
   Serial.begin(9600);
   Serial.print(startRf24(&radio));
 
-  oleddd.setInterface(&oled_inter);
+  oled_class.setInterface(&oled_inter);
   oled_inter.subscribe("room1/Nano/humb");
   oled_inter.subscribe("room1/Nano/temp");
-  // oled_inter.subscribe("room1/Pot/Resistance");
-  oleddd.init();
+  oled_inter.subscribe("room1/Pot/Resistance");
+  oled_class.init();
 
   LED.setInterface(&LED_inter);
   LED_inter.subscribe("LED_nano");
@@ -47,6 +47,6 @@ void setup(){
 
 void loop(){
   LED.iteration();
-  oleddd.iteration();
+  oled_class.iteration();
   dht11.iteration();
 }

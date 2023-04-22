@@ -10,7 +10,7 @@
 class Sensor_oled : public Sensor{
 public:
     Sensor_oled();
-    Sensor_oled(GyverOLED<SSD1306_128x64, OLED_NO_BUFFER>* oledd, const char* humid_top, const char* temp_top, const char* poten_top);
+    Sensor_oled(GyverOLED<SSD1306_128x64, OLED_NO_BUFFER>* oledd, const char* humid_topic, const char* temp_topic, const char* poten_topic);
     bool init();
     bool callback (char* topic, byte* message, unsigned int length);
     bool iteration();
