@@ -24,9 +24,9 @@ typeSensor RF24Interface::subscribs[RF24_MaxCountTopics][RF24_MaxCountSubscriber
 // ////////////////////////Создаем сенсоры//////////////////////////////////
 
 // //Создаем DHT
-// DHT_Unified dht_unif = DHT_Unified(2, DHT11);
-// Sensor_DHT11 dht11(&dht_unif, "temp", "humb");
-// RF24Interface rf24_inter_dht11 = RF24Interface(&dht11);
+DHT_Unified dht_unif = DHT_Unified(2, DHT11);
+Sensor_DHT11 dht11(&dht_unif, "temp", "humb");
+RF24Interface rf24_inter_dht11 = RF24Interface(&dht11);
 
 // //создаем LED
 Sensor_LED LED = Sensor_LED(5);
@@ -38,49 +38,31 @@ RF24Interface LED_inter = RF24Interface(&LED);
 
 // создаем oled
 GyverOLED<SSD1306_128x64, OLED_NO_BUFFER> oled;
-Sensor_oled oleddd = Sensor_oled(&oled, "humb", "temp", "resist");
+Sensor_oled oleddd = Sensor_oled(&oled, "room1/Nano/humb", "room1/Nano/temp", "room1/Pot/Resistance");
 RF24Interface oled_inter = RF24Interface(&oleddd);
 
 
-// OLED myOLED = OLED(18, 19, 8);
-// OLED myOLED(SDA, SCL, 8); 
-
 // ///////////////////////Основной код//////////////////////////////////////
 
-// // подключаем шрифты для текста и цифр
-// extern uint8_t TinyFont[];
-// extern uint8_t SmallFont[];
-// extern uint8_t MediumNumbers[];
-// extern uint8_t BigNumbers[];
-
-// uint64_t timer1;
 
 void setup(){
   Serial.begin(9600);
   Serial.print(startRf24(&radio));
 
   oleddd.setInterface(&oled_inter);
+  oled_inter.subscribe("room1/Nano/humb");
+  oled_inter.subscribe("room1/Nano/temp");
+  oled_inter.subscribe("room1/Pot/Resistance");
   oleddd.init();
-  // oled.clear();
-  // oled.setScale(1);
-  // oled.setCursorXY(0, 5);
-  // oled.print("Humudity: ");
-  // oled.setCursorXY(0, 26);
-  // oled.print("Tempature: ");
-  // oled.setCursorXY(0, 47);
-  // oled.print("Volthuiage: ");
-  // oled.update();
-  // Serial.print(4);
 
   LED.setInterface(&LED_inter);
   LED_inter.subscribe("LED_nano");
 
-  // dht11.setInterface(&rf24_inter_dht11);
-  // timer1 = millis();
- 
+  dht11.setInterface(&rf24_inter_dht11); 
 }
 
 void loop(){
   LED.iteration();
   oleddd.iteration();
+  dht11.iteration();
 }
