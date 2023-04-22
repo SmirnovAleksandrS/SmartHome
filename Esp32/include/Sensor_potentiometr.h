@@ -3,6 +3,7 @@
 
 #include <Sensors_interface.h>
 #include "MQTT_settings.h"
+#include "esp32-hal-ledc.h"
 
 class Sensor_potentiometr : public Sensor{
 public:

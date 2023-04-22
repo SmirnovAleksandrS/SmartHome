@@ -33,15 +33,15 @@ bool Sensor_potentiometr::iteration(){
             // Serial.print(volt);
             // Serial.println(" parrots");
         #endif
-        // if (millis() - time > 100){
-        //     if ( abs(voltage - volt) >= 100 ){
-        //         char bufer[6];  //т.к максимум 4096
-        //         sprintf(bufer, "%i", volt);
-        //         flag = inte->send(top, bufer);
-        //         voltage = volt;
-        //         time = millis();
-        //     }
-        // }
+        if (millis() - time > 100){
+            if ( abs(voltage - volt) >= 100 ){
+                char bufer[6];  //т.к максимум 4096
+                sprintf(bufer, "%i", volt);
+                flag = inte->send(top, bufer);
+                voltage = volt;
+                time = millis();
+            }
+        }
         return flag;
     }
     return false;

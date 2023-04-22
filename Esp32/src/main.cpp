@@ -7,8 +7,6 @@
 #include "Sensor_led_pwm.h"
 #include "Sensor_potentiometr.h"
 
-#include "esp32-hal-ledc.h"
-
 ///////////////////////////////Инициализация MQTT интерфейса///////////////////////////////////////
 
 WiFiClient espClient;       //класс для взаимодействия с Wi-Fi
@@ -41,16 +39,9 @@ MQTTInterface Potent_inter = MQTTInterface("Pot", &potent);
 void setup() {
   Serial.begin(115200);
 
-  // pinMode(16, OUTPUT);
-  // ledcSetup(LedChannel, Frequency, Resolution);                                    
-  // ledcAttachPin(16, LedChannel);
-  // ledcWrite(LedChannel, 253);
-  // delay(100);
-  // ledcWrite(LedChannel, 0);
-
   //инициализируем интерфейсы связи
   startMQTT(&client);
-  startRf24(&radio);  
+  Serial.print(startRf24(&radio));  
   rf24.setInterface(&TxRxInterface);
 
   Led_pwm.setInterface(&Led_pwm_inter);
