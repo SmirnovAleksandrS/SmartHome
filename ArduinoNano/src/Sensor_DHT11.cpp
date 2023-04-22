@@ -56,7 +56,7 @@ bool Sensor_DHT11::iteration(){
             sprintf(bufer_s, "%i", bufer_i);
             flag_t = inte->send(temp_top, bufer_s);
         }
-
+        delay(10);
         //чтение влажности
         dht->humidity().getEvent(&event);
         if (isnan(event.relative_humidity)) {
